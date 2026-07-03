@@ -1,172 +1,242 @@
 [
   {
-    "question_zh": "澳門特別行政區的官方語言是哪兩種？",
-    "question_en": "What are the two official languages of the Macao SAR?",
+    "question_zh": "被稱為「海洋之肺」、產氧超70%的是？",
+    "question_en": "Which of the following is known as the \"lungs of the ocean\" and produces over 70% of the Earth's oxygen?",
     "options_zh": [
-      "葡語和中文",
-      "英語和中文",
-      "法語和中文",
-      "西班牙語和中文"
+      "珊瑚",
+      "浮游藻類",
+      "海帶",
+      "海草"
     ],
     "options_en": [
-      "Portuguese & Chinese",
-      "English & Chinese",
-      "French & Chinese",
-      "Spanish & Chinese"
+      "Coral",
+      "Planktonic algae",
+      "Kelp",
+      "Seagrass"
     ],
+    "answer": 1
+  },
+  {
+    "question_zh": "下列屬於國家一級保護野生動物的是？",
+    "question_en": "Which of the following is classified as a Class I National Protected Wild Animal?",
+    "options_zh": [
+      "魷魚",
+      "中華鱘",
+      "石斑魚",
+      "海參"
+    ],
+    "options_en": [
+      "Squid",
+      "Chinese sturgeon",
+      "Grouper",
+      "Sea cucumber"
+    ],
+    "answer": 1
+  },
+  {
+    "question_zh": "澳門毗鄰、屬於大灣區重點海洋生態保育海灣的是？",
+    "question_en": "Which Bay adjacent to Macao is a key marine ecological conservation bay in the Greater Bay Area?",
+    "options_zh": [
+      "大亞灣",
+      "橫琴灣",
+      "伶仃洋",
+      "海陵灣"
+    ],
+    "options_en": [
+      "Daya Bay",
+      "Hengqin Bay",
+      "Lingdingyang",
+      "Hailing Bay"
+    ],
+    "answer": 2
+  },
+  {
+    "question_zh": "大灣區海域重點一級保護海洋哺乳動物，同時常年出沒澳門近岸水域的物種是？",
+    "question_en": "Which species is a key Class I nationally protected marine mammal in the Greater Bay Area and frequently sighted year-round in the coastal waters of Macao?",
+    "options_zh": ["灰鯨", "中華白海豚", "灰海豚", "領航鯨"],
+    "options_en": ["Gray whale", "Chinese white dolphin", "Risso's dolphin", "Pilot whale"],
+    "answer": 1
+  },
+  {
+    "question_zh": "紅樹林不具備的生態功能？",
+    "question_en": "Which of the following is NOT an ecological function of mangroves?",
+    "options_zh": ["消浪防颱風", "淨化近海污水", "荒漠造林", "魚蝦繁育棲息地"],
+    "options_en": ["Dissipating waves and protecting against typhoons", "Purifying coastal sewage", "Afforestation in deserts", "Breeding and habitat grounds for fish and shrimp"],
+    "answer": 2
+  },
+  {
+    "question_zh": "大灣區推行人工魚礁工程，建造人工礁石的主要目的是？",
+    "question_en": "The Greater Bay Area implements artificial reef projects. What is the primary purpose of constructing artificial reefs?",
+    "options_zh": ["方便漁船停靠停泊", "修復海底棲息地，恢復漁業資源", "搭建海上觀景平臺", "圍堵海水減少潮汐"],
+    "options_en": ["To facilitate the docking and mooring of fishing boats", "To restore seabed habitats and recover fishery resources", "To build offshore viewing platforms", "To block seawater and reduce tidal effects"],
+    "answer": 1
+  },
+   {
+    "question_zh": "以下哪一項最接近粵港澳大灣區在海洋生態保護方面共同推行的專門合作機制或安排？",
+    "question_en": "Which of the following best corresponds to a dedicated cooperative mechanism or arrangement for marine ecological conservation jointly implemented in the Guangdong-Hong Kong-Macao Greater Bay Area?",
+    "options_zh": ["大灣區森林保護公約", "粵港澳大灣區海洋生態協同保護合作安排", "大灣區大氣治理公約", "大灣區濕地農耕公約"],
+    "options_en": ["Greater Bay Area Forest Protection Convention", "Guangdong-Hong Kong-Macao Greater Bay Area Marine Ecological Collaborative Protection Arrangement", "Greater Bay Area Air Governance Convention", "Greater Bay Area Wetland Farming Convention"],
+    "answer": 1
+  },
+  {
+    "question_zh": "下列屬於外來入侵海洋物種的是？",
+    "question_en": "Which of the following is classified as an invasive marine species?",
+    "options_zh": ["獅子魚", "中華白海豚", "江豚", "文昌魚"],
+    "options_en": ["Lionfish", "Chinese white dolphin", "Finless porpoise", "Lancelet (Amphioxus)"],
     "answer": 0
   },
   {
-    "question_zh": "人類大腦平均重量約為多少克？",
-    "question_en": "What is the approximate weight of the average human brain in grams?",
-    "options_zh": [
-      "800克",
-      "1400克",
-      "2100克",
-      "500克"
-    ],
-    "options_en": [
-      "800g",
-      "1400g",
-      "2100g",
-      "500g"
-    ],
+    "question_zh": "大洋區基礎底層食物鏈生產者是？",
+    "question_en": "What is the primary producer at the base of the food chain in the open ocean (pelagic zone)?",
+    "options_zh": ["大型海藻", "海洋浮游植物", "鯊魚", "磷蝦"],
+    "options_en": ["Macroalgae", "Marine phytoplankton", "Sharks", "Krill"],
     "answer": 1
   },
   {
-    "question_zh": "下列哪個國家的面積最大？",
-    "question_en": "Which of the following countries has the largest area?",
-    "options_zh": [
-      "中國",
-      "美國",
-      "俄羅斯",
-      "加拿大"
-    ],
-    "options_en": [
-      "China",
-      "USA",
-      "Russia",
-      "Canada"
-    ],
+    "question_zh": "大灣區伶仃洋海域中華白海豚最主要生存威脅是？",
+    "question_en": "What is the primary threat to the survival of the Indo-Pacific humpback dolphin in the Lingdingyang waters of the Greater Bay Area?",
+    "options_zh": ["海域光照不足", "航運噪音與船舶通航干擾", "海水溫度過低", "海洋火山活動"],
+    "options_en": ["Insufficient sunlight in the marine area", "Shipping noise and vessel traffic interference", "Low seawater temperatures", "Marine volcanic activity"],
+    "answer": 1
+  },
+  {
+    "question_zh": "澳門黑沙海灘生態保育區，重點保護的本土特色海洋底棲生物是？",
+    "question_en": "Which native characteristic marine benthic organisms are primarily protected in the Ecological Conservation Zone of Hac Sa Beach, Macao?",
+    "options_zh": ["南極磷蝦", "灘塗青蟹、本土灘塗貝類", "深海巨型章魚", "熱帶珊瑚鯊魚"],
+    "options_en": ["Antarctic krill", "Mud crabs and native mudflat shellfish", "Deep-sea giant octopuses", "Tropical coral sharks"],
+    "answer": 1
+  },
+  {
+    "question_zh": "導致海洋酸化的核心氣體是？",
+    "question_en": "What is the primary gas responsible for ocean acidification?",
+    "options_zh": ["氧氣", "氮氣", "二氧化碳", "氫氣"],
+    "options_en": ["Oxygen", "Nitrogen", "Carbon dioxide", "Hydrogen"],
     "answer": 2
   },
   {
-    "question_zh": "水的化學分子式是什麼？",
-    "question_en": "What is the chemical formula for water?",
-    "options_zh": [
-      "CO₂",
-      "H₂O₂",
-      "H₂O",
-      "NaCl"
-    ],
-    "options_en": [
-      "CO₂",
-      "H₂O₂",
-      "H₂O",
-      "NaCl"
-    ],
+    "question_zh": "灘塗紅樹林中，能夠耐受高鹽海水、典型本土樹種是？",
+    "question_en": "Which of the following are typical native tree species in mudflat mangroves that can tolerate high-salinity seawater?",
+    "options_zh": ["松樹", "秋茄、桐花樹", "芒果樹", "桂花樹"],
+    "options_en": ["Pine trees", "Kandelia obovata and Aegiceras corniculatum", "Mango trees", "Osmanthus trees"],
+    "answer": 1
+  },
+  {
+    "question_zh": "鯨落的生態意義不包含？",
+    "question_en": "Which of the following is NOT an ecological significance of a whale fall?",
+    "options_zh": ["供養深海生物百年", "滋養深海貧瘠海域", "造成海域污染", "形成獨特生態群落"],
+    "options_en": ["Providing nutrients to deep-sea organisms for a century", "Nourishing barren deep-sea areas", "Causing marine pollution", "Forming a unique ecological community"],
     "answer": 2
   },
   {
-    "question_zh": "莎士比亞是哪個國家的劇作家？",
-    "question_en": "Which country was Shakespeare from?",
-    "options_zh": [
-      "法國",
-      "德國",
-      "義大利",
-      "英國"
-    ],
-    "options_en": [
-      "France",
-      "Germany",
-      "Italy",
-      "England"
-    ],
+    "question_zh": "大灣區實施海洋生態休漁制度，每年南海全域休漁核心目的是？",
+    "question_en": "What is the core purpose of the annual fishing ban across the entire South China Sea?",
+    "options_zh": ["減少海上交通擁堵", "修復近海魚類種群、維繫海洋生物繁育週期", "方便海上觀光", "降低海水鹽分含量"],
+    "options_en": ["Reducing maritime traffic congestion", "Restoring coastal fish populations and maintaining breeding cycles", "Facilitating marine sightseeing", "Lowering seawater salinity"],
+    "answer": 1
+  },
+  {
+    "question_zh": "下列哪種行為會破壞潮間帶生態？",
+    "question_en": "Which of the following behaviors destroys intertidal ecosystems?",
+    "options_zh": ["低潮快速參觀，不長時間逗留", "隨意挖灘塗、撿拾活體海星珊瑚", "帶走垃圾", "不踩踏海藻叢"],
+    "options_en": ["Visit briefly during low tide", "Dig mudflats and collect live sea stars and corals", "Carry away trash", "Avoid stepping on seaweed patches"],
+    "answer": 1
+  },
+  {
+    "question_zh": "極地海冰消融不會引發？",
+    "question_en": "Which of the following is NOT a consequence caused by the melting of polar sea ice?",
+    "options_zh": ["北極熊棲息地縮減", "海平面上升", "近海溫度穩定不變", "浮游生物分佈改變"],
+    "options_en": ["Reduction of polar bear habitats", "Sea level rise", "Coastal temperatures remaining stable and unchanged", "Changes in plankton distribution"],
+    "answer": 2
+  },
+  {
+    "question_zh": "針對大灣區跨境海洋污染治理，粵澳兩地執行的環保協作原則為？",
+    "question_en": "What is the environmental collaboration principle implemented by Guangdong and Macao?",
+    "options_zh": ["各自管控、互不聯動", "協同共治、聯防聯測、跨境共管", "只治理陸地、不治理海域", "優先開發、延後保育"],
+    "options_en": ["Independent management", "Synergistic governance, joint prevention and monitoring, and cross-border co-management", "Manage only land", "Development before conservation"],
+    "answer": 1
+  },
+  {
+    "question_zh": "世界海洋日的日期，也是大灣區每年統一海洋淨灘行動固定宣傳日是？",
+    "question_en": "Which date marks World Oceans Day?",
+    "options_zh": ["12月20日", "6月8日", "11月11日", "10月1日"],
+    "options_en": ["December 20", "June 8", "November 11", "October 1"],
+    "answer": 1
+  },
+  {
+    "question_zh": "修復珊瑚礁無效方式是？",
+    "question_en": "Which of the following is an ineffective method for restoring coral reefs?",
+    "options_zh": ["人工珊瑚礁架育苗移植", "管控近海污水排放", "投放大量化肥促藻", "禁止炸魚毒魚"],
+    "options_en": ["Coral transplantation on artificial reef frames", "Control wastewater discharge", "Add large amounts of fertilizer", "Ban blast fishing and poison fishing"],
+    "answer": 2
+  },
+  {
+    "question_zh": "南海伏季休漁期間，粵港澳大灣區海域禁止的作業不包含以下哪項？",
+    "question_en": "During the South China Sea summer fishing moratorium, which activity is NOT prohibited?",
+    "options_zh": ["拖網、刺網捕撈", "電魚、炸魚、毒魚", "科研機構持證生態採樣", "圍網大規模捕撈幼魚"],
+    "options_en": ["Trawling and gillnetting", "Electrofishing, blast fishing and poison fishing", "Certified ecological sampling", "Large-scale purse seining for juvenile fish"],
+    "answer": 2
+  },
+  {
+    "question_zh": "禁止底拖網捕魚是為保護？",
+    "question_en": "Banning bottom trawling is intended to protect?",
+    "options_zh": ["海面浮游生物", "海底底棲生態與礁盤", "海面海鳥", "表層魚類"],
+    "options_en": ["Surface plankton", "Benthic ecosystems and reef flats", "Seabirds", "Surface fish"],
+    "answer": 1
+  },
+  {
+    "question_zh": "赤潮多發生在什麼季節？",
+    "question_en": "In which season do red tides most frequently occur?",
+    "options_zh": ["冬季低溫期", "春秋溫暖富營養化期", "寒冬", "全年無差別"],
+    "options_en": ["Winter low-temperature period", "Warm eutrophic periods in spring and autumn", "Severe winter", "No seasonal difference"],
+    "answer": 1
+  },
+  {
+    "question_zh": "海龜誤食塑膠袋是因為塑膠袋易被誤認成？",
+    "question_en": "Sea turtles accidentally ingest plastic bags because they are easily mistaken for?",
+    "options_zh": ["小魚", "水母", "海草", "貝殼"],
+    "options_en": ["Small fish", "Jellyfish", "Seagrass", "Seashells"],
+    "answer": 1
+  },
+  {
+    "question_zh": "海洋微塑膠進入海洋食物鏈後，最終會通過哪種途徑危害人類健康？",
+    "question_en": "After marine microplastics enter the food chain, through which pathway do they ultimately endanger human health?",
+    "options_zh": ["海風空氣吸入", "食用近海魚蝦貝類富集毒素", "海水直接浸泡皮膚", "沙灘沙子接觸"],
+    "options_en": ["Inhalation through sea air", "Consumption of contaminated fish, shrimp and shellfish", "Direct skin immersion", "Contact with beach sand"],
+    "answer": 1
+  },
+  {
+    "question_zh": "下列哪種不屬於海洋分解者？",
+    "question_en": "Which of the following does NOT belong to marine decomposers?",
+    "options_zh": ["海洋細菌", "腐生蠕蟲", "虎鯨", "底棲真菌"],
+    "options_en": ["Marine bacteria", "Saprophytic worms", "Killer whales", "Benthic fungi"],
+    "answer": 2
+  },
+  {
+    "question_zh": "人工魚礁的作用不包括？",
+    "question_en": "Which of the following is NOT a function of artificial reefs?",
+    "options_zh": ["聚集魚蝦", "修復礁區生態", "填埋深海垃圾", "抵禦底拖網破壞"],
+    "options_en": ["Aggregating fish and shrimp", "Restoring reef ecosystems", "Burying deep-sea garbage", "Resisting bottom trawling damage"],
+    "answer": 2
+  },
+  {
+    "question_zh": "中華白海豚主要棲息環境是？",
+    "question_en": "What is the primary habitat of the Indo-Pacific humpback dolphin?",
+    "options_zh": ["遠洋深海", "河口近岸鹹淡水交界", "極地海域", "大洋中心"],
+    "options_en": ["Open ocean and deep sea", "Estuarine and nearshore brackish waters", "Polar waters", "Center of the ocean"],
+    "answer": 1
+  },
+  {
+    "question_zh": "引發近海富營養化（海水被過度施肥）的主要污染物是？",
+    "question_en": "What are the main pollutants that trigger nearshore eutrophication?",
+    "options_zh": ["氧氣", "氮、磷營養鹽", "鹽分", "二氧化碳"],
+    "options_en": ["Oxygen", "Nitrogen and phosphorus nutrients", "Salinity", "Carbon dioxide"],
+    "answer": 1
+  },
+  {
+    "question_zh": "海鳥吞食塑膠會造成？",
+    "question_en": "What happens when seabirds ingest plastic?",
+    "options_zh": ["食欲變差", "胃堵塞無法進食餓死", "消化變弱", "以上皆是"],
+    "options_en": ["Decreased appetite", "Stomach blockage and starvation", "Weakened digestion", "All of the above"],
     "answer": 3
-  },
-  {
-    "question_zh": "太陽系中最大的行星是哪一顆？",
-    "question_en": "Which is the largest planet in the solar system?",
-    "options_zh": [
-      "土星",
-      "天王星",
-      "木星",
-      "海王星"
-    ],
-    "options_en": [
-      "Saturn",
-      "Uranus",
-      "Jupiter",
-      "Neptune"
-    ],
-    "answer": 2
-  },
-  {
-    "question_zh": "心理學家馬斯洛（Maslow）的需求層次理論共有幾層？",
-    "question_en": "How many levels are in Maslow's Hierarchy of Needs?",
-    "options_zh": [
-      "三層",
-      "四層",
-      "五層",
-      "六層"
-    ],
-    "options_en": [
-      "Three",
-      "Four",
-      "Five",
-      "Six"
-    ],
-    "answer": 2
-  },
-  {
-    "question_zh": "《哈利波特》系列小說的作者是誰？",
-    "question_en": "Who wrote the Harry Potter series?",
-    "options_zh": [
-      "史蒂芬·金",
-      "J.K.羅琳",
-      "托爾金",
-      "羅ald達爾"
-    ],
-    "options_en": [
-      "Stephen King",
-      "J.K. Rowling",
-      "Tolkien",
-      "Roald Dahl"
-    ],
-    "answer": 1
-  },
-  {
-    "question_zh": "人體中最長的骨骼是哪一根？",
-    "question_en": "Which is the longest bone in the human body?",
-    "options_zh": [
-      "脊椎骨",
-      "肱骨",
-      "股骨（大腿骨）",
-      "腓骨"
-    ],
-    "options_en": [
-      "Spine",
-      "Humerus",
-      "Femur (thigh bone)",
-      "Fibula"
-    ],
-    "answer": 2
-  },
-  {
-    "question_zh": "1997年香港回歸後，成為哪個國家的特別行政區？",
-    "question_en": "After the 1997 handover, Hong Kong became a SAR of which country?",
-    "options_zh": [
-      "英國",
-      "葡萄牙",
-      "中華人民共和國",
-      "中華民國"
-    ],
-    "options_en": [
-      "United Kingdom",
-      "Portugal",
-      "People's Republic of China",
-      "Republic of China"
-    ],
-    "answer": 2
   }
 ]
