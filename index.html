@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>百萬問答 · Million Quiz</title>
+<title>有獎問答遊戲 · 海洋生態保育Q&A</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
@@ -907,7 +907,7 @@ img { display: block; max-width: 100%; }
 
 <!-- Celebrate overlay -->
 <div id="celebrate-overlay">
-  <img src="https://user-gen-media-assets.s3.amazonaws.com/gpt4o_images/76e4d681-17e1-4291-b540-99653c3afae6.png"
+  <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgQqMnaTdqEYbgCRQ_wu-Cl53mchlQuIXu6ZfZUDws4itGfCGV-aB9FfXL2zqhl9r1OKTS7y1giyNqm3rKz3dc0o6P_ssd6taRDwQKRv2joK2843kRv95RUC_64Ipodhr6rBBlWEvOO5qr0/s800/hanabi.png"
        alt="" width="500" height="500">
 </div>
 
@@ -1239,45 +1239,58 @@ function updateHUD() {
 // ============================================================
 // RESULT SCREEN
 // ============================================================
-function showResult() {
+async function showResult() {
   const s = STR[lang];
   const won = correctCnt >= WIN_THRESHOLD;
 
-  document.getElementById('result-icon').textContent      = won ? s.winIcon : s.loseIcon;
+  document.getElementById('result-icon').textContent = won ? s.winIcon : s.loseIcon;
+
   const titleEl = document.getElementById('result-title');
   titleEl.textContent = won ? s.winTitle : s.loseTitle;
   titleEl.className = 'result-title' + (won ? '' : ' fail-title');
-  document.getElementById('result-subtitle').textContent  =
+
+  document.getElementById('result-subtitle').textContent =
     won ? s.winSub(correctCnt, TOTAL_QUESTIONS) : s.loseSub(correctCnt, TOTAL_QUESTIONS);
-  document.getElementById('result-correct').textContent   = correctCnt;
-  document.getElementById('result-wrong').textContent     = wrongCnt;
+
+  document.getElementById('result-correct').textContent = correctCnt;
+  document.getElementById('result-wrong').textContent = wrongCnt;
   document.getElementById('result-correct-label').textContent = s.resultCorrect;
-  document.getElementById('result-wrong-label').textContent   = s.resultWrong;
-  document.getElementById('btn-restart').textContent      = s.btnRestart;
-  document.getElementById('btn-change-lang').textContent  = s.btnChangeLang;
+  document.getElementById('result-wrong-label').textContent = s.resultWrong;
+  document.getElementById('btn-restart').textContent = s.btnRestart;
+  document.getElementById('btn-change-lang').textContent = s.btnChangeLang;
+
+  if (won) {
+    document.getElementById('screen-quiz').style.display = 'none';
+    await triggerCelebrate();
+  }
 
   showScreen('screen-result');
 
-  // Progress bar to full
   setTimeout(() => {
     document.getElementById('progress-bar').style.width = '100%';
   }, 100);
-
-  if (won) triggerCelebrate();
 }
 
 function triggerCelebrate() {
-  const overlay = document.getElementById('celebrate-overlay');
-  overlay.classList.add('show');
-  setTimeout(() => {
-    overlay.style.transition = 'opacity 0.8s ease';
-    overlay.style.opacity = '0';
+  return new Promise((resolve) => {
+    const overlay = document.getElementById('celebrate-overlay');
+
+    overlay.classList.add('show');
+    overlay.style.opacity = '1';
+    overlay.style.transition = 'opacity 0.3s ease';
+
     setTimeout(() => {
-      overlay.classList.remove('show');
-      overlay.style.opacity = '';
-      overlay.style.transition = '';
-    }, 800);
-  }, 2000);
+      overlay.style.transition = 'opacity 0.8s ease';
+      overlay.style.opacity = '0';
+
+      setTimeout(() => {
+        overlay.classList.remove('show');
+        overlay.style.opacity = '';
+        overlay.style.transition = '';
+        resolve();
+      }, 300);
+    }, 700);
+  });
 }
 
 // ============================================================
