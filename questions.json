@@ -1,0 +1,172 @@
+[
+  {
+    "question_zh": "澳門特別行政區的官方語言是哪兩種？",
+    "question_en": "What are the two official languages of the Macao SAR?",
+    "options_zh": [
+      "葡語和中文",
+      "英語和中文",
+      "法語和中文",
+      "西班牙語和中文"
+    ],
+    "options_en": [
+      "Portuguese & Chinese",
+      "English & Chinese",
+      "French & Chinese",
+      "Spanish & Chinese"
+    ],
+    "answer": 0
+  },
+  {
+    "question_zh": "人類大腦平均重量約為多少克？",
+    "question_en": "What is the approximate weight of the average human brain in grams?",
+    "options_zh": [
+      "800克",
+      "1400克",
+      "2100克",
+      "500克"
+    ],
+    "options_en": [
+      "800g",
+      "1400g",
+      "2100g",
+      "500g"
+    ],
+    "answer": 1
+  },
+  {
+    "question_zh": "下列哪個國家的面積最大？",
+    "question_en": "Which of the following countries has the largest area?",
+    "options_zh": [
+      "中國",
+      "美國",
+      "俄羅斯",
+      "加拿大"
+    ],
+    "options_en": [
+      "China",
+      "USA",
+      "Russia",
+      "Canada"
+    ],
+    "answer": 2
+  },
+  {
+    "question_zh": "水的化學分子式是什麼？",
+    "question_en": "What is the chemical formula for water?",
+    "options_zh": [
+      "CO₂",
+      "H₂O₂",
+      "H₂O",
+      "NaCl"
+    ],
+    "options_en": [
+      "CO₂",
+      "H₂O₂",
+      "H₂O",
+      "NaCl"
+    ],
+    "answer": 2
+  },
+  {
+    "question_zh": "莎士比亞是哪個國家的劇作家？",
+    "question_en": "Which country was Shakespeare from?",
+    "options_zh": [
+      "法國",
+      "德國",
+      "義大利",
+      "英國"
+    ],
+    "options_en": [
+      "France",
+      "Germany",
+      "Italy",
+      "England"
+    ],
+    "answer": 3
+  },
+  {
+    "question_zh": "太陽系中最大的行星是哪一顆？",
+    "question_en": "Which is the largest planet in the solar system?",
+    "options_zh": [
+      "土星",
+      "天王星",
+      "木星",
+      "海王星"
+    ],
+    "options_en": [
+      "Saturn",
+      "Uranus",
+      "Jupiter",
+      "Neptune"
+    ],
+    "answer": 2
+  },
+  {
+    "question_zh": "心理學家馬斯洛（Maslow）的需求層次理論共有幾層？",
+    "question_en": "How many levels are in Maslow's Hierarchy of Needs?",
+    "options_zh": [
+      "三層",
+      "四層",
+      "五層",
+      "六層"
+    ],
+    "options_en": [
+      "Three",
+      "Four",
+      "Five",
+      "Six"
+    ],
+    "answer": 2
+  },
+  {
+    "question_zh": "《哈利波特》系列小說的作者是誰？",
+    "question_en": "Who wrote the Harry Potter series?",
+    "options_zh": [
+      "史蒂芬·金",
+      "J.K.羅琳",
+      "托爾金",
+      "羅ald達爾"
+    ],
+    "options_en": [
+      "Stephen King",
+      "J.K. Rowling",
+      "Tolkien",
+      "Roald Dahl"
+    ],
+    "answer": 1
+  },
+  {
+    "question_zh": "人體中最長的骨骼是哪一根？",
+    "question_en": "Which is the longest bone in the human body?",
+    "options_zh": [
+      "脊椎骨",
+      "肱骨",
+      "股骨（大腿骨）",
+      "腓骨"
+    ],
+    "options_en": [
+      "Spine",
+      "Humerus",
+      "Femur (thigh bone)",
+      "Fibula"
+    ],
+    "answer": 2
+  },
+  {
+    "question_zh": "1997年香港回歸後，成為哪個國家的特別行政區？",
+    "question_en": "After the 1997 handover, Hong Kong became a SAR of which country?",
+    "options_zh": [
+      "英國",
+      "葡萄牙",
+      "中華人民共和國",
+      "中華民國"
+    ],
+    "options_en": [
+      "United Kingdom",
+      "Portugal",
+      "People's Republic of China",
+      "Republic of China"
+    ],
+    "answer": 2
+  }
+]

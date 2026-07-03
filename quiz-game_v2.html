@@ -1,0 +1,1447 @@
+<!DOCTYPE html>
+<html lang="zh-HK" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>百萬問答 · Million Quiz</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+/* =============================================
+   ART DIRECTION: Millionaire TV Show
+   Palette: Deep navy/black, gold accents, dramatic lighting
+   Typography: Cinzel (display) + Noto Sans TC (body)
+   Density: Spacious, theatrical
+============================================= */
+:root {
+  --font-display: 'Cinzel', 'Georgia', serif;
+  --font-body: 'Noto Sans TC', 'Helvetica Neue', sans-serif;
+
+  --color-bg:             #0a0b0f;
+  --color-surface:        #111320;
+  --color-surface-2:      #171a2e;
+  --color-surface-offset: #1e2240;
+  --color-border:         rgba(212,175,55,0.2);
+  --color-border-bright:  rgba(212,175,55,0.6);
+
+  --color-text:           #f0e8d0;
+  --color-text-muted:     #a89878;
+  --color-text-faint:     #5a5040;
+
+  --color-gold:           #d4af37;
+  --color-gold-light:     #f0d060;
+  --color-gold-dark:      #8b6914;
+  --color-gold-glow:      rgba(212,175,55,0.25);
+
+  --color-correct:        #2ecc71;
+  --color-correct-bg:     rgba(46,204,113,0.15);
+  --color-wrong:          #e74c3c;
+  --color-wrong-bg:       rgba(231,76,60,0.15);
+  --color-neutral-hover:  rgba(212,175,55,0.12);
+
+  --text-xs:   clamp(0.75rem, 0.7rem + 0.25vw, 0.875rem);
+  --text-sm:   clamp(0.875rem, 0.8rem + 0.35vw, 1rem);
+  --text-base: clamp(1rem, 0.95rem + 0.25vw, 1.125rem);
+  --text-lg:   clamp(1.125rem, 1rem + 0.75vw, 1.5rem);
+  --text-xl:   clamp(1.5rem, 1.2rem + 1.25vw, 2.25rem);
+  --text-2xl:  clamp(2rem, 1.2rem + 2.5vw, 3.5rem);
+
+  --space-1: 0.25rem; --space-2: 0.5rem; --space-3: 0.75rem;
+  --space-4: 1rem;    --space-5: 1.25rem; --space-6: 1.5rem;
+  --space-8: 2rem;    --space-10: 2.5rem; --space-12: 3rem;
+  --space-16: 4rem;
+
+  --radius-sm: 0.375rem; --radius-md: 0.5rem;
+  --radius-lg: 0.75rem;  --radius-xl: 1rem;
+  --radius-full: 9999px;
+
+  --transition: 220ms cubic-bezier(0.16, 1, 0.3, 1);
+  --transition-fast: 150ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility; }
+body {
+  min-height: 100dvh;
+  font-family: var(--font-body);
+  font-size: var(--text-base);
+  color: var(--color-text);
+  background: var(--color-bg);
+  overflow-x: hidden;
+}
+
+button { cursor: pointer; background: none; border: none; font: inherit; color: inherit; }
+img { display: block; max-width: 100%; }
+
+/* ── Background ── */
+.game-bg {
+  position: fixed; inset: 0; z-index: 0;
+  background-image: url('https://user-gen-media-assets.s3.amazonaws.com/gpt4o_images/98be9fa7-fc0f-43c3-9abf-7d9b680ce611.png');
+  background-size: cover; background-position: center;
+  filter: brightness(0.45);
+}
+.game-bg::after {
+  content: '';
+  position: absolute; inset: 0;
+  background: radial-gradient(ellipse at 50% 60%, rgba(10,11,15,0) 0%, rgba(10,11,15,0.7) 100%);
+}
+
+/* ── Layout ── */
+#app {
+  position: relative; z-index: 1;
+  min-height: 100dvh;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  padding: var(--space-6) var(--space-4);
+}
+
+/* ── Screen transitions ── */
+.screen {
+  width: 100%; max-width: 760px;
+  animation: screenIn 0.45s cubic-bezier(0.16,1,0.3,1) both;
+}
+.screen.out { animation: screenOut 0.25s cubic-bezier(0.4,0,1,1) both; }
+
+@keyframes screenIn {
+  from { opacity: 0; transform: translateY(24px) scale(0.98); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+@keyframes screenOut {
+  to { opacity: 0; transform: translateY(-16px) scale(0.98); }
+}
+
+/* ── Gold divider ── */
+.gold-line {
+  width: 100%; height: 1px;
+  background: linear-gradient(90deg, transparent, var(--color-gold), transparent);
+  margin: var(--space-6) 0;
+}
+
+/* ──────────────────────────────────────────
+   SCREEN: Language Select
+────────────────────────────────────────── */
+#screen-lang {
+  text-align: center;
+}
+.logo-title {
+  font-family: var(--font-display);
+  font-size: var(--text-2xl);
+  font-weight: 700;
+  background: linear-gradient(135deg, var(--color-gold-light), var(--color-gold), var(--color-gold-dark));
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  background-clip: text;
+  letter-spacing: 0.05em;
+  line-height: 1.2;
+  margin-bottom: var(--space-2);
+  text-shadow: none;
+}
+.logo-subtitle {
+  font-size: var(--text-sm);
+  color: var(--color-text-muted);
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  margin-bottom: var(--space-10);
+}
+.lang-prompt {
+  font-size: var(--text-sm);
+  color: var(--color-text-muted);
+  margin-bottom: var(--space-6);
+  letter-spacing: 0.1em;
+}
+.lang-buttons {
+  display: flex; gap: var(--space-4); justify-content: center; flex-wrap: wrap;
+}
+.btn-lang {
+  padding: var(--space-4) var(--space-10);
+  border: 1px solid var(--color-border-bright);
+  border-radius: var(--radius-full);
+  font-family: var(--font-display);
+  font-size: var(--text-base);
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  color: var(--color-gold-light);
+  background: rgba(212,175,55,0.06);
+  transition: background var(--transition), border-color var(--transition),
+              box-shadow var(--transition), transform var(--transition);
+  min-width: 160px;
+}
+.btn-lang:hover {
+  background: rgba(212,175,55,0.15);
+  border-color: var(--color-gold);
+  box-shadow: 0 0 20px var(--color-gold-glow), 0 4px 12px rgba(0,0,0,0.3);
+  transform: translateY(-2px);
+}
+.btn-lang:active { transform: translateY(0); }
+
+/* ──────────────────────────────────────────
+   SCREEN: Quiz
+────────────────────────────────────────── */
+/* Score HUD */
+.hud {
+  display: flex; justify-content: space-between; align-items: center;
+  margin-bottom: var(--space-6);
+  padding: var(--space-3) var(--space-5);
+  background: rgba(17,19,32,0.8);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-full);
+  backdrop-filter: blur(8px);
+}
+.hud-label {
+  font-size: var(--text-xs);
+  color: var(--color-text-muted);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  margin-bottom: 0.2em;
+}
+.hud-score {
+  display: flex; gap: var(--space-8);
+}
+.hud-item {
+  text-align: center;
+}
+.hud-count {
+  font-family: var(--font-display);
+  font-size: var(--text-lg);
+  font-variant-numeric: tabular-nums lining-nums;
+  font-weight: 600;
+}
+.hud-count.correct { color: var(--color-correct); }
+.hud-count.wrong   { color: var(--color-wrong); }
+.hud-progress {
+  font-size: var(--text-xs);
+  color: var(--color-text-muted);
+  letter-spacing: 0.08em;
+}
+
+/* Progress bar */
+.progress-bar-wrap {
+  height: 3px;
+  background: rgba(255,255,255,0.08);
+  border-radius: var(--radius-full);
+  margin-bottom: var(--space-6);
+  overflow: hidden;
+}
+.progress-bar-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--color-gold-dark), var(--color-gold));
+  border-radius: var(--radius-full);
+  transition: width 0.6s cubic-bezier(0.16,1,0.3,1);
+}
+
+/* Question card */
+.question-card {
+  background: rgba(17,19,32,0.85);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-xl);
+  padding: var(--space-8) var(--space-8);
+  margin-bottom: var(--space-5);
+  backdrop-filter: blur(12px);
+  box-shadow: 0 4px 32px rgba(0,0,0,0.4), 0 0 60px rgba(212,175,55,0.03);
+  position: relative;
+  overflow: hidden;
+}
+.question-card::before {
+  content: '';
+  position: absolute; top: 0; left: 0; right: 0; height: 2px;
+  background: linear-gradient(90deg, transparent, var(--color-gold), transparent);
+  opacity: 0.7;
+}
+.question-number {
+  font-size: var(--text-xs);
+  color: var(--color-gold);
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  margin-bottom: var(--space-3);
+  font-weight: 600;
+}
+.question-text {
+  font-size: var(--text-lg);
+  line-height: 1.55;
+  color: var(--color-text);
+  font-weight: 500;
+}
+
+/* Options grid */
+.options-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-3);
+}
+@media (max-width: 520px) {
+  .options-grid { grid-template-columns: 1fr; }
+}
+
+.option-btn {
+  display: flex; align-items: center; gap: var(--space-3);
+  padding: var(--space-4) var(--space-5);
+  background: rgba(17,19,32,0.8);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  text-align: left;
+  cursor: pointer;
+  transition: background var(--transition), border-color var(--transition),
+              box-shadow var(--transition), transform var(--transition);
+  backdrop-filter: blur(8px);
+  min-height: 64px;
+  position: relative;
+  overflow: hidden;
+}
+.option-btn::before {
+  content: '';
+  position: absolute; inset: 0;
+  background: linear-gradient(135deg, rgba(212,175,55,0.04), transparent);
+  opacity: 0; transition: opacity var(--transition);
+}
+.option-btn:hover:not(:disabled) {
+  background: var(--color-neutral-hover);
+  border-color: rgba(212,175,55,0.4);
+  box-shadow: 0 0 16px rgba(212,175,55,0.1), 0 4px 12px rgba(0,0,0,0.2);
+  transform: translateY(-1px);
+}
+.option-btn:hover::before { opacity: 1; }
+.option-btn:active:not(:disabled) { transform: translateY(0); }
+.option-btn:disabled { cursor: default; }
+
+.option-letter {
+  width: 32px; height: 32px; flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
+  border-radius: var(--radius-full);
+  border: 1px solid var(--color-border-bright);
+  font-family: var(--font-display);
+  font-size: var(--text-xs);
+  font-weight: 700;
+  color: var(--color-gold);
+  letter-spacing: 0.05em;
+  transition: background var(--transition), border-color var(--transition), color var(--transition);
+}
+.option-text {
+  font-size: var(--text-sm);
+  line-height: 1.45;
+  flex: 1;
+}
+
+/* Option states */
+.option-btn.correct {
+  background: var(--color-correct-bg);
+  border-color: var(--color-correct);
+  box-shadow: 0 0 20px rgba(46,204,113,0.2);
+  animation: pulseCorrect 0.5s cubic-bezier(0.16,1,0.3,1);
+}
+.option-btn.correct .option-letter {
+  background: var(--color-correct);
+  border-color: var(--color-correct);
+  color: #fff;
+}
+.option-btn.wrong {
+  background: var(--color-wrong-bg);
+  border-color: var(--color-wrong);
+  box-shadow: 0 0 20px rgba(231,76,60,0.2);
+  animation: shake 0.4s cubic-bezier(0.36,0.07,0.19,0.97);
+}
+.option-btn.wrong .option-letter {
+  background: var(--color-wrong);
+  border-color: var(--color-wrong);
+  color: #fff;
+}
+.option-btn.dimmed {
+  opacity: 0.4;
+}
+
+@keyframes pulseCorrect {
+  0%   { transform: scale(1); }
+  40%  { transform: scale(1.03); }
+  100% { transform: scale(1); }
+}
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  20%       { transform: translateX(-6px); }
+  40%       { transform: translateX(6px); }
+  60%       { transform: translateX(-4px); }
+  80%       { transform: translateX(4px); }
+}
+
+/* Feedback bar */
+.feedback-bar {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s cubic-bezier(0.16,1,0.3,1);
+  margin-top: var(--space-3);
+}
+.feedback-bar.visible {
+  max-height: 80px;
+}
+.feedback-inner {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-3) var(--space-5);
+  border-radius: var(--radius-lg);
+  font-weight: 600;
+  font-size: var(--text-sm);
+  line-height: 1.4;
+  box-sizing: border-box;
+}
+.feedback-inner.correct-fb {
+  background: var(--color-correct-bg);
+  border: 1px solid var(--color-correct);
+  color: var(--color-correct);
+}
+.feedback-inner.wrong-fb {
+  background: var(--color-wrong-bg);
+  border: 1px solid var(--color-wrong);
+  color: var(--color-wrong);
+}
+.feedback-icon { font-size: var(--text-lg); flex-shrink: 0; }
+
+/* Next button */
+.btn-next {
+  display: block;
+  margin: var(--space-5) auto 0;
+  padding: var(--space-4) var(--space-12);
+  background: linear-gradient(135deg, var(--color-gold-dark), var(--color-gold));
+  border-radius: var(--radius-full);
+  font-family: var(--font-display);
+  font-size: var(--text-sm);
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  color: #0a0b0f;
+  opacity: 0;
+  transform: translateY(8px);
+  transition: opacity 0.3s, transform 0.3s, box-shadow var(--transition), filter var(--transition);
+  pointer-events: none;
+}
+.btn-next.show {
+  opacity: 1; transform: translateY(0); pointer-events: all;
+}
+.btn-next:hover {
+  box-shadow: 0 0 24px var(--color-gold-glow), 0 4px 16px rgba(0,0,0,0.3);
+  filter: brightness(1.1);
+}
+
+/* ──────────────────────────────────────────
+   SCREEN: Result
+────────────────────────────────────────── */
+#screen-result {
+  text-align: center;
+}
+.result-card {
+  background: rgba(17,19,32,0.9);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-xl);
+  padding: var(--space-12) var(--space-8);
+  backdrop-filter: blur(16px);
+  box-shadow: 0 8px 48px rgba(0,0,0,0.5);
+  position: relative; overflow: hidden;
+}
+.result-card::before {
+  content: '';
+  position: absolute; top: 0; left: 0; right: 0; height: 2px;
+  background: linear-gradient(90deg, transparent, var(--color-gold), transparent);
+}
+.result-icon {
+  font-size: 64px; line-height: 1;
+  margin-bottom: var(--space-4);
+  animation: popIn 0.5s cubic-bezier(0.16,1,0.3,1) 0.2s both;
+}
+@keyframes popIn {
+  from { transform: scale(0.3); opacity: 0; }
+  to   { transform: scale(1);   opacity: 1; }
+}
+.result-title {
+  font-family: var(--font-display);
+  font-size: var(--text-xl);
+  font-weight: 700;
+  margin-bottom: var(--space-2);
+  background: linear-gradient(135deg, var(--color-gold-light), var(--color-gold));
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.result-title.fail-title {
+  background: linear-gradient(135deg, #e74c3c, #c0392b);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.result-subtitle {
+  color: var(--color-text-muted);
+  font-size: var(--text-sm);
+  margin-bottom: var(--space-8);
+  line-height: 1.6;
+}
+.result-scores {
+  display: flex; justify-content: center; gap: var(--space-12);
+  margin-bottom: var(--space-8);
+}
+.result-score-item { text-align: center; }
+.result-score-num {
+  font-family: var(--font-display);
+  font-size: var(--text-2xl);
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  line-height: 1;
+  margin-bottom: var(--space-1);
+}
+.result-score-num.c { color: var(--color-correct); }
+.result-score-num.w { color: var(--color-wrong); }
+.result-score-label {
+  font-size: var(--text-xs);
+  color: var(--color-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+}
+.result-buttons {
+  display: flex; gap: var(--space-3); justify-content: center; flex-wrap: wrap;
+}
+.btn-restart {
+  padding: var(--space-4) var(--space-8);
+  background: linear-gradient(135deg, var(--color-gold-dark), var(--color-gold));
+  border-radius: var(--radius-full);
+  font-family: var(--font-display);
+  font-size: var(--text-sm);
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  color: #0a0b0f;
+  transition: box-shadow var(--transition), filter var(--transition), transform var(--transition);
+}
+.btn-restart:hover {
+  box-shadow: 0 0 24px var(--color-gold-glow);
+  filter: brightness(1.1);
+  transform: translateY(-1px);
+}
+.btn-change-lang {
+  padding: var(--space-4) var(--space-8);
+  background: transparent;
+  border: 1px solid var(--color-border-bright);
+  border-radius: var(--radius-full);
+  font-family: var(--font-display);
+  font-size: var(--text-sm);
+  letter-spacing: 0.08em;
+  color: var(--color-gold-light);
+  transition: background var(--transition), border-color var(--transition), transform var(--transition);
+}
+.btn-change-lang:hover {
+  background: rgba(212,175,55,0.1);
+  transform: translateY(-1px);
+}
+
+/* Celebrate overlay */
+#celebrate-overlay {
+  position: fixed; inset: 0; z-index: 100;
+  pointer-events: none;
+  display: flex; align-items: center; justify-content: center;
+  opacity: 0; transition: opacity 0.3s;
+}
+#celebrate-overlay.show { opacity: 1; }
+#celebrate-overlay img {
+  width: min(500px, 90vw);
+  animation: celebratePop 1.2s cubic-bezier(0.16,1,0.3,1) both;
+}
+@keyframes celebratePop {
+  0%   { transform: scale(0.2) rotate(-10deg); opacity: 0; }
+  60%  { transform: scale(1.1) rotate(3deg);  opacity: 1; }
+  100% { transform: scale(1) rotate(0deg);    opacity: 1; }
+}
+
+/* ──────────────────────────────────────────
+   SCREEN: Admin
+────────────────────────────────────────── */
+#screen-admin {
+  max-width: 860px;
+}
+.admin-header {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-bottom: var(--space-6);
+}
+.admin-title {
+  font-family: var(--font-display);
+  font-size: var(--text-xl);
+  color: var(--color-gold);
+  letter-spacing: 0.05em;
+}
+.btn-back {
+  padding: var(--space-2) var(--space-5);
+  border: 1px solid var(--color-border-bright);
+  border-radius: var(--radius-full);
+  color: var(--color-gold-light);
+  font-size: var(--text-xs);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  transition: background var(--transition), border-color var(--transition);
+}
+.btn-back:hover { background: rgba(212,175,55,0.1); }
+
+.admin-panel {
+  background: rgba(17,19,32,0.85);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-xl);
+  padding: var(--space-6);
+  backdrop-filter: blur(12px);
+  margin-bottom: var(--space-4);
+}
+.admin-panel h3 {
+  font-family: var(--font-display);
+  font-size: var(--text-base);
+  color: var(--color-gold-light);
+  margin-bottom: var(--space-4);
+  padding-bottom: var(--space-3);
+  border-bottom: 1px solid var(--color-border);
+  letter-spacing: 0.05em;
+}
+
+/* Form */
+.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-3); margin-bottom: var(--space-3); }
+@media (max-width: 560px) { .form-row { grid-template-columns: 1fr; } }
+.form-group { display: flex; flex-direction: column; gap: var(--space-1); }
+.form-group label {
+  font-size: var(--text-xs);
+  color: var(--color-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+}
+.form-group input, .form-group select {
+  padding: var(--space-3) var(--space-4);
+  background: rgba(255,255,255,0.05);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  color: var(--color-text);
+  font-size: var(--text-sm);
+  font-family: var(--font-body);
+  transition: border-color var(--transition), box-shadow var(--transition);
+}
+.form-group input:focus, .form-group select:focus {
+  outline: none;
+  border-color: var(--color-gold);
+  box-shadow: 0 0 0 3px rgba(212,175,55,0.12);
+}
+.form-group select option { background: #111320; color: var(--color-text); }
+
+.options-inputs { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-2); }
+@media (max-width: 560px) { .options-inputs { grid-template-columns: 1fr; } }
+
+.btn-add {
+  margin-top: var(--space-4);
+  padding: var(--space-3) var(--space-6);
+  background: linear-gradient(135deg, var(--color-gold-dark), var(--color-gold));
+  border-radius: var(--radius-full);
+  font-family: var(--font-display);
+  font-size: var(--text-xs);
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  color: #0a0b0f;
+  transition: box-shadow var(--transition), filter var(--transition);
+}
+.btn-add:hover { box-shadow: 0 0 16px var(--color-gold-glow); filter: brightness(1.1); }
+
+/* Question list */
+.q-list { display: flex; flex-direction: column; gap: var(--space-3); }
+.q-item {
+  background: rgba(255,255,255,0.03);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-4) var(--space-5);
+  display: flex; align-items: flex-start; justify-content: space-between; gap: var(--space-4);
+  transition: border-color var(--transition);
+}
+.q-item:hover { border-color: rgba(212,175,55,0.3); }
+.q-item-content { flex: 1; min-width: 0; }
+.q-item-zh { font-size: var(--text-sm); color: var(--color-text); margin-bottom: var(--space-1); }
+.q-item-en { font-size: var(--text-xs); color: var(--color-text-muted); }
+.q-item-actions { display: flex; gap: var(--space-2); flex-shrink: 0; }
+.btn-edit, .btn-delete {
+  width: 32px; height: 32px;
+  display: flex; align-items: center; justify-content: center;
+  border-radius: var(--radius-md);
+  font-size: 14px;
+  border: 1px solid var(--color-border);
+  transition: background var(--transition), border-color var(--transition);
+}
+.btn-edit:hover  { background: rgba(212,175,55,0.1); border-color: var(--color-gold); }
+.btn-delete:hover { background: rgba(231,76,60,0.1); border-color: var(--color-wrong); }
+
+/* Admin access button (bottom corner) */
+#admin-trigger {
+  position: fixed; bottom: var(--space-4); right: var(--space-4);
+  z-index: 50;
+  padding: var(--space-2) var(--space-4);
+  background: rgba(17,19,32,0.8);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-full);
+  font-size: var(--text-xs);
+  color: var(--color-text-faint);
+  letter-spacing: 0.1em;
+  backdrop-filter: blur(8px);
+  transition: color var(--transition), border-color var(--transition);
+}
+#admin-trigger:hover { color: var(--color-gold); border-color: var(--color-gold); }
+
+/* Toast */
+#toast {
+  position: fixed; bottom: var(--space-8); left: 50%; transform: translateX(-50%) translateY(20px);
+  z-index: 200;
+  padding: var(--space-3) var(--space-6);
+  background: rgba(17,19,32,0.95);
+  border: 1px solid var(--color-gold);
+  border-radius: var(--radius-full);
+  font-size: var(--text-sm);
+  color: var(--color-gold-light);
+  opacity: 0;
+  transition: opacity 0.3s, transform 0.3s;
+  pointer-events: none;
+  white-space: nowrap;
+}
+#toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+/* Edit modal */
+#edit-modal {
+  position: fixed; inset: 0; z-index: 300;
+  background: rgba(0,0,0,0.7);
+  display: flex; align-items: center; justify-content: center;
+  padding: var(--space-4);
+  opacity: 0; pointer-events: none;
+  transition: opacity 0.25s;
+  backdrop-filter: blur(4px);
+}
+#edit-modal.open { opacity: 1; pointer-events: all; }
+.modal-box {
+  background: #111320;
+  border: 1px solid var(--color-border-bright);
+  border-radius: var(--radius-xl);
+  padding: var(--space-8);
+  width: 100%; max-width: 680px;
+  max-height: 90dvh;
+  overflow-y: auto;
+  animation: screenIn 0.3s cubic-bezier(0.16,1,0.3,1) both;
+}
+.modal-title {
+  font-family: var(--font-display);
+  font-size: var(--text-lg);
+  color: var(--color-gold);
+  margin-bottom: var(--space-6);
+}
+.modal-actions {
+  display: flex; gap: var(--space-3); justify-content: flex-end;
+  margin-top: var(--space-6);
+}
+.btn-save {
+  padding: var(--space-3) var(--space-6);
+  background: linear-gradient(135deg, var(--color-gold-dark), var(--color-gold));
+  border-radius: var(--radius-full);
+  font-family: var(--font-display);
+  font-size: var(--text-xs);
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  color: #0a0b0f;
+}
+.btn-cancel {
+  padding: var(--space-3) var(--space-6);
+  border: 1px solid var(--color-border-bright);
+  border-radius: var(--radius-full);
+  font-size: var(--text-xs);
+  color: var(--color-text-muted);
+  transition: background var(--transition);
+}
+.btn-cancel:hover { background: rgba(255,255,255,0.05); }
+
+/* Responsive */
+@media (max-width: 600px) {
+  .question-card { padding: var(--space-5); }
+  .result-card   { padding: var(--space-8) var(--space-5); }
+  .result-scores { gap: var(--space-8); }
+  .hud { padding: var(--space-2) var(--space-4); }
+}
+</style>
+</head>
+<body>
+
+<div class="game-bg" aria-hidden="true"></div>
+
+<div id="app">
+  <!-- Screen: Language Select -->
+  <div id="screen-lang" class="screen">
+    <h1 class="logo-title">有獎問答遊戲<br>海洋生態保育Q&A</h1>
+    <p class="logo-subtitle">Who Wants to Win?</p>
+    <div class="gold-line"></div>
+    <p class="lang-prompt">選擇語言 · Choose Language</p>
+    <div class="lang-buttons">
+      <button class="btn-lang" onclick="startGame('zh')">中文</button>
+      <button class="btn-lang" onclick="startGame('en')">English</button>
+    </div>
+  </div>
+
+  <!-- Screen: Quiz -->
+  <div id="screen-quiz" class="screen" style="display:none;">
+    <!-- HUD -->
+    <div class="hud">
+      <div class="hud-score">
+        <div class="hud-item">
+          <div class="hud-label" id="hud-correct-label">答對</div>
+          <div class="hud-count correct" id="hud-correct">0</div>
+        </div>
+        <div class="hud-item">
+          <div class="hud-label" id="hud-wrong-label">答錯</div>
+          <div class="hud-count wrong" id="hud-wrong">0</div>
+        </div>
+      </div>
+      <div class="hud-progress" id="hud-progress">1 / 5</div>
+    </div>
+
+    <!-- Progress bar -->
+    <div class="progress-bar-wrap">
+      <div class="progress-bar-fill" id="progress-bar" style="width:0%"></div>
+    </div>
+
+    <!-- Question -->
+    <div class="question-card">
+      <div class="question-number" id="q-number"></div>
+      <div class="question-text" id="q-text"></div>
+    </div>
+
+    <!-- Options -->
+    <div class="options-grid" id="options-grid"></div>
+
+    <!-- Feedback -->
+    <div class="feedback-bar" id="feedback-bar">
+      <div class="feedback-inner" id="feedback-inner">
+        <span class="feedback-icon" id="feedback-icon"></span>
+        <span id="feedback-text"></span>
+      </div>
+    </div>
+
+    <!-- Next -->
+    <button class="btn-next" id="btn-next" onclick="nextQuestion()"></button>
+  </div>
+
+  <!-- Screen: Result -->
+  <div id="screen-result" class="screen" style="display:none;">
+    <div class="result-card">
+      <div class="result-icon" id="result-icon"></div>
+      <h2 class="result-title" id="result-title"></h2>
+      <p class="result-subtitle" id="result-subtitle"></p>
+      <div class="result-scores">
+        <div class="result-score-item">
+          <div class="result-score-num c" id="result-correct">0</div>
+          <div class="result-score-label" id="result-correct-label">答對</div>
+        </div>
+        <div class="result-score-item">
+          <div class="result-score-num w" id="result-wrong">0</div>
+          <div class="result-score-label" id="result-wrong-label">答錯</div>
+        </div>
+      </div>
+      <div class="result-buttons">
+        <button class="btn-restart" id="btn-restart" onclick="restartGame()"></button>
+        <button class="btn-change-lang" id="btn-change-lang" onclick="goToLang()"></button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Screen: Admin -->
+  <div id="screen-admin" class="screen" style="display:none;">
+    <div class="admin-header">
+      <h2 class="admin-title" id="admin-title">題庫管理</h2>
+      <button class="btn-back" id="btn-back" onclick="goToLang()">← 返回</button>
+    </div>
+
+    <!-- Add form -->
+    <div class="admin-panel">
+      <h3 id="admin-add-title">新增題目</h3>
+      <div class="form-row">
+        <div class="form-group" style="grid-column:1/-1">
+          <label id="lbl-qzh">題目（中文）</label>
+          <input type="text" id="new-qzh" placeholder="輸入中文題目">
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group" style="grid-column:1/-1">
+          <label id="lbl-qen">Question (English)</label>
+          <input type="text" id="new-qen" placeholder="Enter English question">
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group" style="grid-column:1/-1">
+          <label id="lbl-opts-zh">選項（中文）A / B / C / D</label>
+          <div class="options-inputs">
+            <input type="text" id="new-azh" placeholder="選項 A">
+            <input type="text" id="new-bzh" placeholder="選項 B">
+            <input type="text" id="new-czh" placeholder="選項 C">
+            <input type="text" id="new-dzh" placeholder="選項 D">
+          </div>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group" style="grid-column:1/-1">
+          <label id="lbl-opts-en">Options (English) A / B / C / D</label>
+          <div class="options-inputs">
+            <input type="text" id="new-aen" placeholder="Option A">
+            <input type="text" id="new-ben" placeholder="Option B">
+            <input type="text" id="new-cen" placeholder="Option C">
+            <input type="text" id="new-den" placeholder="Option D">
+          </div>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label id="lbl-ans">正確答案</label>
+          <select id="new-ans">
+            <option value="0">A</option>
+            <option value="1">B</option>
+            <option value="2">C</option>
+            <option value="3">D</option>
+          </select>
+        </div>
+      </div>
+      <button class="btn-add" id="btn-add" onclick="addQuestion()">＋ 新增</button>
+    </div>
+
+    <!-- Question list -->
+    <div class="admin-panel">
+      <h3 id="admin-list-title">現有題目</h3>
+      <div class="q-list" id="q-list"></div>
+    </div>
+
+    <!-- Export JSON -->
+    <div style="text-align:center; margin-top:var(--space-4)">
+      <button class="btn-restart" onclick="exportJSON()" id="btn-export" style="font-size:var(--text-xs); padding:var(--space-3) var(--space-8);">⬇ 匯出 questions.json</button>
+    </div>
+  </div>
+</div>
+
+<!-- Celebrate overlay -->
+<div id="celebrate-overlay">
+  <img src="https://user-gen-media-assets.s3.amazonaws.com/gpt4o_images/76e4d681-17e1-4291-b540-99653c3afae6.png"
+       alt="" width="500" height="500">
+</div>
+
+<!-- Admin trigger -->
+<button id="admin-trigger" onclick="openAdmin()">⚙ 後台</button>
+
+<!-- Toast -->
+<div id="toast"></div>
+
+<!-- Edit modal -->
+<div id="edit-modal">
+  <div class="modal-box">
+    <h3 class="modal-title" id="modal-title">編輯題目</h3>
+    <div class="form-row">
+      <div class="form-group" style="grid-column:1/-1">
+        <label>題目（中文）</label>
+        <input type="text" id="edit-qzh">
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group" style="grid-column:1/-1">
+        <label>Question (English)</label>
+        <input type="text" id="edit-qen">
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group" style="grid-column:1/-1">
+        <label>選項（中文）</label>
+        <div class="options-inputs">
+          <input type="text" id="edit-azh" placeholder="A">
+          <input type="text" id="edit-bzh" placeholder="B">
+          <input type="text" id="edit-czh" placeholder="C">
+          <input type="text" id="edit-dzh" placeholder="D">
+        </div>
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group" style="grid-column:1/-1">
+        <label>Options (English)</label>
+        <div class="options-inputs">
+          <input type="text" id="edit-aen" placeholder="A">
+          <input type="text" id="edit-ben" placeholder="B">
+          <input type="text" id="edit-cen" placeholder="C">
+          <input type="text" id="edit-den" placeholder="D">
+        </div>
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label>正確答案</label>
+        <select id="edit-ans">
+          <option value="0">A</option>
+          <option value="1">B</option>
+          <option value="2">C</option>
+          <option value="3">D</option>
+        </select>
+      </div>
+    </div>
+    <div class="modal-actions">
+      <button class="btn-cancel" onclick="closeEditModal()">取消</button>
+      <button class="btn-save" onclick="saveEdit()">儲存</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ============================================================
+// EMBEDDED QUESTION DATA (mirrors questions.json)
+// ============================================================
+let QUESTIONS = [];
+
+async function loadQuestions() {
+  try {
+    const res = await fetch('./questions.json');
+    if (!res.ok) throw new Error('Failed to load questions.json');
+    QUESTIONS = await res.json();
+  } catch (err) {
+    console.error(err);
+    alert('題庫載入失敗，請檢查 questions.json\nFailed to load question bank. Please check questions.json');
+  }
+}
+
+// ============================================================
+// GAME STATE
+// ============================================================
+const TOTAL_QUESTIONS = 5;
+const WIN_THRESHOLD   = 3;
+
+let lang       = 'zh';
+let gamePool   = [];
+let currentIdx = 0;
+let correctCnt = 0;
+let wrongCnt   = 0;
+let answered   = false;
+
+// ============================================================
+// LANG STRINGS
+// ============================================================
+const STR = {
+  zh: {
+    hudCorrect: '答對', hudWrong: '答錯',
+    qLabel: (n, t) => `第 ${n} 題，共 ${t} 題`,
+    fbCorrect: '🎉 答對了！', fbWrong: (c) => `😔 答錯了！正確答案是：${c}`,
+    btnNext: '下一題 →',
+    btnFinish: '查看結果',
+    winTitle: '恭喜獲獎！', winIcon: '🏆',
+    winSub: (c, t) => `你答對了 ${c} 題（共 ${t} 題），達到獲獎標準！`,
+    loseTitle: '未能獲獎', loseIcon: '😔',
+    loseSub: (c, t) => `你答對了 ${c} 題（共 ${t} 題），差一點點！`,
+    btnRestart: '再玩一次',
+    btnChangeLang: '切換語言',
+    resultCorrect: '答對', resultWrong: '答錯',
+    adminTitle: '題庫管理', adminBack: '← 返回',
+    adminAddTitle: '新增題目', adminListTitle: '現有題目',
+    toastAdded: '✓ 題目已新增',
+    toastDeleted: '✓ 題目已刪除',
+    toastSaved: '✓ 已儲存',
+    toastFill: '⚠ 請填寫所有欄位',
+    exportBtn: '⬇ 匯出 questions.json'
+  },
+  en: {
+    hudCorrect: 'Correct', hudWrong: 'Wrong',
+    qLabel: (n, t) => `Question ${n} of ${t}`,
+    fbCorrect: '🎉 Correct!', fbWrong: (c) => `✗ Wrong! The answer was: ${c}`,
+    btnNext: 'Next →',
+    btnFinish: 'See Results',
+    winTitle: 'Congratulations!', winIcon: '🏆',
+    winSub: (c, t) => `You answered ${c} out of ${t} correctly — you win!`,
+    loseTitle: 'Not This Time', loseIcon: '😔',
+    loseSub: (c, t) => `You got ${c} out of ${t} — keep trying!`,
+    btnRestart: 'Play Again',
+    btnChangeLang: 'Switch Language',
+    resultCorrect: 'Correct', resultWrong: 'Wrong',
+    adminTitle: 'Question Bank', adminBack: '← Back',
+    adminAddTitle: 'Add Question', adminListTitle: 'All Questions',
+    toastAdded: '✓ Question added',
+    toastDeleted: '✓ Question deleted',
+    toastSaved: '✓ Saved',
+    toastFill: '⚠ Please fill in all fields',
+    exportBtn: '⬇ Export questions.json'
+  }
+};
+
+// ============================================================
+// SCREEN MANAGEMENT
+// ============================================================
+function showScreen(id) {
+  ['screen-lang','screen-quiz','screen-result','screen-admin'].forEach(s => {
+    const el = document.getElementById(s);
+    el.style.display = 'none';
+  });
+  const el = document.getElementById(id);
+  el.style.display = '';
+  el.classList.remove('out');
+  void el.offsetWidth;
+  el.style.animation = 'none';
+  void el.offsetWidth;
+  el.style.animation = '';
+}
+
+// ============================================================
+// GAME FLOW
+// ============================================================
+function startGame(selectedLang) {
+  if (!QUESTIONS.length) {
+    alert('題庫尚未載入，請稍後再試。\nQuestion bank is not ready yet. Please try again shortly.');
+    return;
+  }
+
+  lang = selectedLang;
+  gamePool = shuffle([...QUESTIONS]).slice(0, TOTAL_QUESTIONS);
+  currentIdx = 0;
+  correctCnt = 0;
+  wrongCnt = 0;
+  updateHUD();
+  renderQuestion();
+  showScreen('screen-quiz');
+}
+
+function restartGame() {
+  startGame(lang);
+}
+
+function goToLang() {
+  showScreen('screen-lang');
+}
+
+function shuffle(arr) {
+  for (let i = arr.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [arr[i], arr[j]] = [arr[j], arr[i]];
+  }
+  return arr;
+}
+
+// ============================================================
+// QUESTION RENDERING
+// ============================================================
+function renderQuestion() {
+  answered = false;
+  const s = STR[lang];
+  const q = gamePool[currentIdx];
+  const n = currentIdx + 1;
+
+  // Number label
+  document.getElementById('q-number').textContent = s.qLabel(n, TOTAL_QUESTIONS);
+
+  // Question text
+  document.getElementById('q-text').textContent =
+    lang === 'zh' ? q.question_zh : q.question_en;
+
+  // Progress bar
+  document.getElementById('progress-bar').style.width =
+    ((n - 1) / TOTAL_QUESTIONS * 100) + '%';
+
+  // HUD progress
+  document.getElementById('hud-progress').textContent = `${n} / ${TOTAL_QUESTIONS}`;
+
+  // Reset feedback
+  const fb = document.getElementById('feedback-bar');
+  fb.classList.remove('visible');
+
+  // Hide next btn
+  const nextBtn = document.getElementById('btn-next');
+  nextBtn.classList.remove('show');
+  nextBtn.textContent = n < TOTAL_QUESTIONS ? s.btnNext : s.btnFinish;
+
+  // Build options
+  const grid = document.getElementById('options-grid');
+  grid.innerHTML = '';
+  const opts = lang === 'zh' ? q.options_zh : q.options_en;
+  const letters = ['A', 'B', 'C', 'D'];
+
+  opts.forEach((opt, i) => {
+    const btn = document.createElement('button');
+    btn.className = 'option-btn';
+    btn.setAttribute('data-index', i);
+    btn.innerHTML = `
+      <span class="option-letter">${letters[i]}</span>
+      <span class="option-text">${opt}</span>
+    `;
+    btn.addEventListener('click', () => selectOption(i));
+    grid.appendChild(btn);
+  });
+}
+
+function selectOption(selected) {
+  if (answered) return;
+  answered = true;
+  const s = STR[lang];
+  const q = gamePool[currentIdx];
+  const correct = q.answer;
+  const opts = lang === 'zh' ? q.options_zh : q.options_en;
+  const letters = ['A','B','C','D'];
+  const isCorrect = selected === correct;
+
+  // Disable all buttons
+  const btns = document.querySelectorAll('.option-btn');
+  btns.forEach((btn, i) => {
+    btn.disabled = true;
+    if (i === correct) {
+      btn.classList.add('correct');
+    } else if (i === selected && !isCorrect) {
+      btn.classList.add('wrong');
+    } else {
+      btn.classList.add('dimmed');
+    }
+  });
+
+  // Update score
+  if (isCorrect) correctCnt++; else wrongCnt++;
+  updateHUD();
+
+  // Show feedback
+  const fbBar   = document.getElementById('feedback-bar');
+  const fbInner = document.getElementById('feedback-inner');
+  const fbIcon  = document.getElementById('feedback-icon');
+  const fbText  = document.getElementById('feedback-text');
+
+  if (isCorrect) {
+    fbInner.className = 'feedback-inner correct-fb';
+    fbIcon.textContent = '✓';
+    fbText.textContent = s.fbCorrect;
+  } else {
+    fbInner.className = 'feedback-inner wrong-fb';
+    fbIcon.textContent = '✗';
+    fbText.textContent = s.fbWrong(`${letters[correct]}. ${opts[correct]}`);
+  }
+  fbBar.classList.add('visible');
+
+  // Show next button with slight delay
+  setTimeout(() => {
+    document.getElementById('btn-next').classList.add('show');
+  }, 400);
+}
+
+function nextQuestion() {
+  currentIdx++;
+  if (currentIdx >= TOTAL_QUESTIONS) {
+    showResult();
+  } else {
+    renderQuestion();
+  }
+}
+
+// ============================================================
+// HUD UPDATE
+// ============================================================
+function updateHUD() {
+  const s = STR[lang];
+  document.getElementById('hud-correct-label').textContent = s.hudCorrect;
+  document.getElementById('hud-wrong-label').textContent   = s.hudWrong;
+  document.getElementById('hud-correct').textContent = correctCnt;
+  document.getElementById('hud-wrong').textContent   = wrongCnt;
+
+  // Animate number change
+  const cEl = document.getElementById('hud-correct');
+  const wEl = document.getElementById('hud-wrong');
+  cEl.style.transform = 'scale(1.4)';
+  wEl.style.transform = 'scale(1.4)';
+  setTimeout(() => {
+    cEl.style.transition = 'transform 0.3s cubic-bezier(0.16,1,0.3,1)';
+    wEl.style.transition = 'transform 0.3s cubic-bezier(0.16,1,0.3,1)';
+    cEl.style.transform = 'scale(1)';
+    wEl.style.transform = 'scale(1)';
+  }, 50);
+}
+
+// ============================================================
+// RESULT SCREEN
+// ============================================================
+function showResult() {
+  const s = STR[lang];
+  const won = correctCnt >= WIN_THRESHOLD;
+
+  document.getElementById('result-icon').textContent      = won ? s.winIcon : s.loseIcon;
+  const titleEl = document.getElementById('result-title');
+  titleEl.textContent = won ? s.winTitle : s.loseTitle;
+  titleEl.className = 'result-title' + (won ? '' : ' fail-title');
+  document.getElementById('result-subtitle').textContent  =
+    won ? s.winSub(correctCnt, TOTAL_QUESTIONS) : s.loseSub(correctCnt, TOTAL_QUESTIONS);
+  document.getElementById('result-correct').textContent   = correctCnt;
+  document.getElementById('result-wrong').textContent     = wrongCnt;
+  document.getElementById('result-correct-label').textContent = s.resultCorrect;
+  document.getElementById('result-wrong-label').textContent   = s.resultWrong;
+  document.getElementById('btn-restart').textContent      = s.btnRestart;
+  document.getElementById('btn-change-lang').textContent  = s.btnChangeLang;
+
+  showScreen('screen-result');
+
+  // Progress bar to full
+  setTimeout(() => {
+    document.getElementById('progress-bar').style.width = '100%';
+  }, 100);
+
+  if (won) triggerCelebrate();
+}
+
+function triggerCelebrate() {
+  const overlay = document.getElementById('celebrate-overlay');
+  overlay.classList.add('show');
+  setTimeout(() => {
+    overlay.style.transition = 'opacity 0.8s ease';
+    overlay.style.opacity = '0';
+    setTimeout(() => {
+      overlay.classList.remove('show');
+      overlay.style.opacity = '';
+      overlay.style.transition = '';
+    }, 800);
+  }, 2000);
+}
+
+// ============================================================
+// ADMIN PANEL
+// ============================================================
+function openAdmin() {
+  applyAdminLang();
+  renderQList();
+  showScreen('screen-admin');
+}
+
+function applyAdminLang() {
+  const s = STR[lang];
+  document.getElementById('admin-title').textContent      = s.adminTitle;
+  document.getElementById('btn-back').textContent         = s.adminBack;
+  document.getElementById('admin-add-title').textContent  = s.adminAddTitle;
+  document.getElementById('admin-list-title').textContent = s.adminListTitle;
+  document.getElementById('btn-export').textContent       = s.exportBtn;
+}
+
+function renderQList() {
+  const list = document.getElementById('q-list');
+  if (QUESTIONS.length === 0) {
+    list.innerHTML = '<p style="color:var(--color-text-muted);font-size:var(--text-sm);text-align:center;padding:var(--space-6)">尚無題目 · No questions yet</p>';
+    return;
+  }
+  list.innerHTML = QUESTIONS.map((q, i) => `
+    <div class="q-item">
+      <div class="q-item-content">
+        <div class="q-item-zh">${i+1}. ${q.question_zh}</div>
+        <div class="q-item-en">${q.question_en}</div>
+      </div>
+      <div class="q-item-actions">
+        <button class="btn-edit" onclick="openEditModal(${i})" title="編輯" aria-label="編輯題目 ${i+1}">✎</button>
+        <button class="btn-delete" onclick="deleteQuestion(${i})" title="刪除" aria-label="刪除題目 ${i+1}">✕</button>
+      </div>
+    </div>
+  `).join('');
+}
+
+function addQuestion() {
+  const qzh = document.getElementById('new-qzh').value.trim();
+  const qen = document.getElementById('new-qen').value.trim();
+  const azh = document.getElementById('new-azh').value.trim();
+  const bzh = document.getElementById('new-bzh').value.trim();
+  const czh = document.getElementById('new-czh').value.trim();
+  const dzh = document.getElementById('new-dzh').value.trim();
+  const aen = document.getElementById('new-aen').value.trim();
+  const ben = document.getElementById('new-ben').value.trim();
+  const cen = document.getElementById('new-cen').value.trim();
+  const den = document.getElementById('new-den').value.trim();
+  const ans = parseInt(document.getElementById('new-ans').value);
+
+  if (!qzh || !qen || !azh || !bzh || !czh || !dzh || !aen || !ben || !cen || !den) {
+    showToast(STR[lang].toastFill); return;
+  }
+
+  QUESTIONS.push({
+    question_zh: qzh, question_en: qen,
+    options_zh: [azh, bzh, czh, dzh],
+    options_en: [aen, ben, cen, den],
+    answer: ans
+  });
+
+  // Clear inputs
+  ['new-qzh','new-qen','new-azh','new-bzh','new-czh','new-dzh',
+   'new-aen','new-ben','new-cen','new-den'].forEach(id => {
+    document.getElementById(id).value = '';
+  });
+  document.getElementById('new-ans').value = '0';
+
+  renderQList();
+  showToast(STR[lang].toastAdded);
+}
+
+function deleteQuestion(idx) {
+  QUESTIONS.splice(idx, 1);
+  renderQList();
+  showToast(STR[lang].toastDeleted);
+}
+
+// ── Edit modal ──
+let editIdx = -1;
+function openEditModal(idx) {
+  editIdx = idx;
+  const q = QUESTIONS[idx];
+  document.getElementById('edit-qzh').value = q.question_zh;
+  document.getElementById('edit-qen').value = q.question_en;
+  document.getElementById('edit-azh').value = q.options_zh[0];
+  document.getElementById('edit-bzh').value = q.options_zh[1];
+  document.getElementById('edit-czh').value = q.options_zh[2];
+  document.getElementById('edit-dzh').value = q.options_zh[3];
+  document.getElementById('edit-aen').value = q.options_en[0];
+  document.getElementById('edit-ben').value = q.options_en[1];
+  document.getElementById('edit-cen').value = q.options_en[2];
+  document.getElementById('edit-den').value = q.options_en[3];
+  document.getElementById('edit-ans').value = q.answer;
+  document.getElementById('edit-modal').classList.add('open');
+}
+function closeEditModal() {
+  document.getElementById('edit-modal').classList.remove('open');
+}
+function saveEdit() {
+  if (editIdx < 0) return;
+  QUESTIONS[editIdx] = {
+    question_zh: document.getElementById('edit-qzh').value.trim(),
+    question_en: document.getElementById('edit-qen').value.trim(),
+    options_zh: [
+      document.getElementById('edit-azh').value.trim(),
+      document.getElementById('edit-bzh').value.trim(),
+      document.getElementById('edit-czh').value.trim(),
+      document.getElementById('edit-dzh').value.trim()
+    ],
+    options_en: [
+      document.getElementById('edit-aen').value.trim(),
+      document.getElementById('edit-ben').value.trim(),
+      document.getElementById('edit-cen').value.trim(),
+      document.getElementById('edit-den').value.trim()
+    ],
+    answer: parseInt(document.getElementById('edit-ans').value)
+  };
+  closeEditModal();
+  renderQList();
+  showToast(STR[lang].toastSaved);
+}
+
+// Close modal on backdrop click
+document.getElementById('edit-modal').addEventListener('click', function(e) {
+  if (e.target === this) closeEditModal();
+});
+
+// ── Export JSON ──
+function exportJSON() {
+  const json = JSON.stringify(QUESTIONS, null, 2);
+  const blob = new Blob([json], { type: 'application/json' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'questions.json';
+  a.click();
+  URL.revokeObjectURL(a.href);
+}
+
+// ── Toast ──
+let toastTimer = null;
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  if (toastTimer) clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => t.classList.remove('show'), 2500);
+}
+
+window.addEventListener('DOMContentLoaded', async () => {
+  await loadQuestions();
+});
+
+// ============================================================
+// TEST HOOK
+// ============================================================
+window.render_game_to_text = () => JSON.stringify({
+  screen: document.querySelector('.screen:not([style*="none"])').id,
+  lang, currentIdx, correctCnt, wrongCnt, answered,
+  totalQ: TOTAL_QUESTIONS
+});
+</script>
+</body>
+</html>
